@@ -1,0 +1,15 @@
+# dependencies
+node_modules
+
+# Folder
+
+# exclude everything
+
+
+# exception to the rule
+!build/.gitkeep 
+!public/.gitkeep 
+
+# Files
+
+package-lock.json
