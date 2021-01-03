@@ -2,7 +2,6 @@
 const Global = require('../../Boot/Global');
 module.exports = {
 
-
     getUserDetails : async function (req, res) {
         try {
 
@@ -18,9 +17,6 @@ module.exports = {
                 let obj = { statusCode: 200, status: "success", message: "User Details", result: details.recordsets };
                 res.send(obj);
               }
-
-      
-            
         } catch (error) {
             console.log("Error while get user details  "+ error);
 
@@ -39,9 +35,6 @@ module.exports = {
                 let obj = { statusCode: 200, status: "success", message: "User Added Successfully", result: null };
                 res.send(obj);
               }
-
-      
-            
         } catch (error) {
             console.log("Error while add user details  "+ error);
 
