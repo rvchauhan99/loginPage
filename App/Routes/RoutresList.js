@@ -6,9 +6,9 @@ try {
     //     res.send('This is test api.')
     // })
 
-    // Global.Router.get('/userLogin',Global.App.Controllers.ConList.userLogin)
+    Global.Router.get('/api/getUserDetails',Global.App.Controllers.ConList.getUserDetails)
 
-    // Global.Router.post('/userRegister',Global.App.Controllers.ConList.userRegister)
+    Global.Router.post('/api/addUser',Global.App.Controllers.ConList.addUser)
 
 
 

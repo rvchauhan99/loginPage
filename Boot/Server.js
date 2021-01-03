@@ -76,16 +76,6 @@ Global.Log.info('Loading... SqlDB Connection');
 
 Global.SqlPool = await Global.Sql.connect(Global.ConfigData.Database[Global.ConfigData.Database.connectionType].sql);
 
-let getDetails = await Global.SqlPool.request().query("SELECT * FROM UserDetails");
-
-console.log("getDetails???" ,  getDetails)
-
-
-
-
-
-
-
 Global.Log.info('Initializing App Server...');
 fs.readdirSync(path.join(__dirname, '../', './App'))
     .filter(function (file) {
@@ -94,43 +84,30 @@ fs.readdirSync(path.join(__dirname, '../', './App'))
     .forEach(function (dir) {
         if (dir != 'Views' && dir != 'Routes') { // Ignore Load Views & Routes in Sys Object
             Global.App[dir] = {};
-            // Global.Log.info('Loading... App' + dir);
             fs.readdirSync(path.join(__dirname, '../', './App', dir)).filter(function (file) {
                 return (file.indexOf(".") !== 0);
             }).forEach(function (subDir) {
 
                 insidePath = dir + '/' + subDir;
-                // Global.Log.info('Loading... APP Sub Directory :'+subDir);
-                // Global.Log.info('insidePath... APP Sub Directory :'+insidePath);
                 if (fs.existsSync(path.join(__dirname, '../', './App', insidePath))) {
                     if (fs.lstatSync(path.join(__dirname, '../', './App', insidePath)).isFile()) {
-                        //Global.Log.info('Loading... File :'+subDir);
-                        Global.App[dir][subDir.split('.')[0]] = require(path.join(__dirname, '../', './App', dir, subDir)); // Add File in Sub Folder Object
+                        Global.App[dir][subDir.split('.')[0]] = require(path.join(__dirname, '../', './App', dir, subDir)); // 
                     } else {
                         Global.App[dir][subDir] = {};
-                        //Global.Log.info('Loading... App Sub Directory Folder:'+insidePath);
                         fs.readdirSync(path.join(__dirname, '../', './App', insidePath)).filter(function (file) {
                             return (file.indexOf(".") !== 0);
                         }).forEach(function (subInnerDir) {
                             insidePath = dir + '/' + subDir + '/' + subInnerDir;
-                            //Global.Log.info('Loading... App Sub  Inner Directory :>>>'+subInnerDir);
                             if (fs.lstatSync(path.join(__dirname, '../', './App', insidePath)).isFile()) {
-                                //Global.Log.info('Loading... App Sub  File :'+subInnerDir);
                                 Global.App[dir][subDir][subInnerDir.split('.')[0]] = require(path.join(__dirname, '../', './App', dir + '/' + subDir, subInnerDir)); // Add File in Sub Folder Object
                             } else {
                                 Global.App[dir][subDir][subInnerDir] = {};
-                                //	Global.Log.info('Loading... App Sub Inner Directory Folder:'+insidePath);
-
                                 fs.readdirSync(path.join(__dirname, '../', './App', insidePath)).filter(function (file) {
                                     return (file.indexOf(".") !== 0);
                                 }).forEach(function (subInnerLastDir) {
                                     insidePath = dir + '/' + subDir + '/' + subInnerDir + '/' + subInnerLastDir;
-                                    //Global.Log.info('Loading... App Sub  Inner Directory :'+subInnerLastDir);
                                     if (fs.lstatSync(path.join(__dirname, '../', './App', insidePath)).isFile()) {
-                                        //Global.Log.info('Loading... Sub Last  File :'+subInnerLastDir);
-                                        Global.App[dir][subDir][subInnerDir][subInnerLastDir.split('.')[0]] = require(path.join(__dirname, '../', './App', dir + '/' + subDir + '/' + subInnerDir, subInnerLastDir)); // Add File in Sub Folder Object
-                                    } else {
-                                        //	Global.Log.info('Loading... Sub Last  Folder Plase Change Your Code:'+subInnerLastDir);
+                                        Global.App[dir][subDir][subInnerDir][subInnerLastDir.split('.')[0]] = require(path.join(__dirname, '../', './App', dir + '/' + subDir + '/' + subInnerDir, subInnerLastDir)); // 
                                     }
 
                                 });
@@ -173,8 +150,7 @@ fs.readdirSync(path.join(__dirname, '../', './App'))
         });
 
         let date = new Date();
-        let dateTime = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' Time ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
-        // Global.HttpServer.listen(Global.Config.port);
+        let dateTime = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' Time ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();;
         Global.App.listen(port)
         console.log("(---------------------------------------------------------------)");
         console.log(" |                     Server Started...                        |");
@@ -188,7 +164,7 @@ module.exports = {
     server: Global.Server
 };
 } catch (err) {
-  console.log("Global Error When Start Sql Server : " + err.message)
+  console.log("Global Error When Server : " + err.message)
 }
 })()
 
