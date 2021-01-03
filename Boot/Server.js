@@ -8,11 +8,23 @@ var path = require("path");
 var bodyparser = require('body-parser');  
 var winston = require('winston');
 var ip = require('ip');
+var sql = require("mssql");
+
 
 
 const Global = new require('../Boot/Global'); 
 
 Global.App = express();
+Global.Sql = sql;
+Global.SqlPools = [];
+Global.ConfigData = new Array();
+fs.readdirSync(join(__dirname, './'))
+    .filter(file => ~file.search(/^[^\.].*\.js$/))
+    .forEach(function (file) {
+        Global.ConfigData[file.split('.')[0]] = require(join(join(__dirname, './'), file))
+    });
+
+
 Global.App.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
@@ -59,8 +71,16 @@ Global.Log.add(new winston.transports.Console({
 
 
 
-// Global.Log.info('Loading... DB Connection');
-// Global.Log.info('Loading... SqlDB Connection');
+Global.Log.info('Loading... DB Connection');
+Global.Log.info('Loading... SqlDB Connection');
+
+Global.SqlPool = await Global.Sql.connect(Global.ConfigData.Database[Global.ConfigData.Database.connectionType].sql);
+
+let getDetails = await Global.SqlPool.request().query("SELECT * FROM UserDetails");
+
+console.log("getDetails???" ,  getDetails)
+
+
 
 
 
@@ -154,7 +174,7 @@ fs.readdirSync(path.join(__dirname, '../', './App'))
 
         let date = new Date();
         let dateTime = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' Time ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
-        // Evolve.HttpServer.listen(Evolve.Config.port);
+        // Global.HttpServer.listen(Global.Config.port);
         Global.App.listen(port)
         console.log("(---------------------------------------------------------------)");
         console.log(" |                     Server Started...                        |");
@@ -168,7 +188,7 @@ module.exports = {
     server: Global.Server
 };
 } catch (err) {
-  console.log("Evolve Error When Start Sql Server : " + err.message)
+  console.log("Global Error When Start Sql Server : " + err.message)
 }
 })()
 

@@ -16,6 +16,7 @@
     "express-fileupload": "^1.2.0",
     "fs": "0.0.1-security",
     "ip": "^1.1.5",
+    "mssql": "^6.3.1",
     "node-cmd": "^4.0.0",
     "request": "^2.88.2",
     "winston": "^3.3.3"
