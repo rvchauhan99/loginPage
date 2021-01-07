@@ -25,6 +25,20 @@ module.exports = {
 			return new Error("Error while add user details " + error.message);
 		}
 	},
+	checkUser: async function (data) {
+		try {
+			return await Global.SqlPool.request()
+			.input('User_Name', Global.Sql.NVarChar, data.User_Name)
+			.input('User_Password', Global.Sql.NVarChar, data.User_Password)
+		
+			.query('SELECT * FROM UserDetails WHERE User_Name=@User_Name AND  User_Password=@User_Password');
+
+		} catch (error) {
+			Global.Log.error("Error while check user details " + error.message);
+			return new Error("Error while check user details " + error.message);
+		}
+	},
+
 
 
 

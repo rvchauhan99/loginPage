@@ -40,6 +40,28 @@ module.exports = {
 
         }
     },
+    checkUser : async function (req, res) {
+      try {
+          console.log("req.body>>>>" ,  req.body)
+          let checkUser = await Global.App.Services.SrvList.checkUser(req.body);
+
+          if (checkUser instanceof Error) {
+              let obj = { statusCode: 400, status: "fail", message: "Error while check user details", result: null };
+              res.send(obj);
+
+            }else if(checkUser.rowsAffected<1){
+              let obj = { statusCode: 400, status: "fail", message: "No User Found", result: null };
+              res.send(obj);
+
+            }else{
+              let obj = { statusCode: 200, status: "success", message: "User Logged In Successfully", result: null };
+              res.send(obj);
+            }
+      } catch (error) {
+          console.log("Error while add user details  "+ error);
+
+      }
+  },
 
 
 
